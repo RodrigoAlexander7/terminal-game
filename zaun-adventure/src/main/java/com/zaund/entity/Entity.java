@@ -11,9 +11,4 @@ public abstract class Entity {
    public Entity(int life){
       this.life = life;
    }
-
-
-
-   
-   
 }
