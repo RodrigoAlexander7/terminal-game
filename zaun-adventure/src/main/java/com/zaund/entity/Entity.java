@@ -4,14 +4,14 @@ package com.zaund.entity;
 import com.zaund.map.*;;
 
 public abstract class Entity {
-   protected int life;
    protected Position position;
    protected String renderSymbol;
    // atack and defence are just for enemys, the characters has especiall habiliities
 
-   public Entity(int life){
-      this.life = life;
+   public Entity(){
+      this.position = new Position(0, 0);
    }
+
 
    public Entity(int x, int y){
       this.position = new Position(x, y);
