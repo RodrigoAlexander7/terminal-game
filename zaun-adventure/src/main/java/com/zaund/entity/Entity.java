@@ -15,4 +15,9 @@ public abstract class Entity {
    public Position getPosition() {
       return position;
    }
+
+   public boolean isInsideMap(Map map){
+      if (position.getX() < map.getNumR() - 1) return true;
+      return false;
+   }
 }
