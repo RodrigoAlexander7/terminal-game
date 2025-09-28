@@ -11,4 +11,8 @@ public abstract class Entity {
    public Entity(int life){
       this.life = life;
    }
+
+   public Position getPosition() {
+      return position;
+   }
 }
