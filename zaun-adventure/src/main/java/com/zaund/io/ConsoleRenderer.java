@@ -33,7 +33,6 @@ public class ConsoleRenderer{
             }else{
                System.out.print(map.getTile(i, j).getSymbol());
             }
-
          }
          System.out.print("\n");
       }
