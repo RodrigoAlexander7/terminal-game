@@ -1,9 +1,35 @@
 package com.zaund.io;
 
-import com.zaund.*;
+import com.zaund.map.*;
+
+import java.util.List;
+
+import com.zaund.entity.*;
 
 public class ConsoleRenderer{
-   public static void render(){
+   public static void render(Map map, Entity player, List<Entity> enemies){
+      int numR = map.getNumR();
+      int numC = map.getNumC();
       
+      // verify that the player is inside the Map
+      if(!player.isInsideMap(map)){
+         System.out.println("Player out bounded map");
+         return;
+      }
+      
+      // verigy that the enemies are on the map
+      for(Entity enemy : enemies){
+         if (!enemy.isInsideMap(map)){
+            System.out.println("Enemy out bounded map" + enemy);
+            return;
+         }
+      }
+
+      for(int i = 0; i < numR; i++){
+         for(int j = 0; j < numC; j++){
+
+         }
+      }
+
    }
 }
