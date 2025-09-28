@@ -2,7 +2,7 @@ package com.zaund.map;
 
 public class MapGenerator{
    public Map basicMap(){
-      Map basic = new Map(30,30);
+      Map basic = new Map(15,45);
       int numR = basic.getNumR();
       int numC = basic.getNumC();
       for(int i = 0; i < numR; i++){

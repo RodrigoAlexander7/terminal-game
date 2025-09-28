@@ -17,7 +17,7 @@ public class ConsoleRenderer{
          return;
       }
       
-      // verigy that the enemies are on the map
+      // verify that the enemies are on the map
       for(Entity enemy : enemies){
          if (!enemy.isInsideMap(map)){
             System.out.println("Enemy out bounded map" + enemy);
@@ -27,8 +27,15 @@ public class ConsoleRenderer{
 
       for(int i = 0; i < numR; i++){
          for(int j = 0; j < numC; j++){
+            Position current = new Position(i, j);
+            if (player.getPosition().equals(current)){
+               System.out.print(player.getRenderSymbol());
+            }else{
+               System.out.print(map.getTile(i, j).getSymbol());
+            }
 
          }
+         System.out.print("\n");
       }
 
    }
