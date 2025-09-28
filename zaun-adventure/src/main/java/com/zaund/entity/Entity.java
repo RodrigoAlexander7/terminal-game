@@ -13,8 +13,16 @@ public abstract class Entity {
       this.life = life;
    }
 
+   public Entity(int x, int y){
+      this.position = new Position(x, y);
+   }
+
    public Position getPosition() {
       return position;
+   }
+
+   public void setPosition(int x, int y) {
+      this.position = new Position(x, y);
    }
 
    public boolean isInsideMap(Map map){
@@ -25,6 +33,11 @@ public abstract class Entity {
    public String getRenderSymbol(){
       return renderSymbol;
    } 
+
+   public void moveUp(){ this.position.moveUp(); }
+   public void moveDown(){ this.position.moveDown(); }
+   public void moveRight(){ this.position.moveRight(); }
+   public void moveLeft(){ this.position.moveLeft(); }
 
    //  the @Override inside every kind of character
    // public string toString(){
