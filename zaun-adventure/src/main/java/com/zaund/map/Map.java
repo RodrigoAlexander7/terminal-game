@@ -23,6 +23,10 @@ public class Map{
       return grid[row][col];
    }
 
+   public Tile getTile(Position position){
+      return grid[position.getX()][position.getY()];
+   }
+
    public void setTile(int row, int col, Tile tile){
       grid[row][col] = tile;
    }

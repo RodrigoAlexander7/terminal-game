@@ -12,7 +12,6 @@ public abstract class Entity {
       this.position = new Position(0, 0);
    }
 
-
    public Entity(int x, int y){
       this.position = new Position(x, y);
    }
@@ -24,9 +23,15 @@ public abstract class Entity {
    public void setPosition(int x, int y) {
       this.position = new Position(x, y);
    }
+   public void setPosition(Position position) {
+      this.position = position;
+   }
 
    public boolean isInsideMap(Map map){
-      if (position.getX() < map.getNumR() - 1) return true;
+      // Y -> horizontal movement
+      if (position.getY() < map.getNumC() - 1 && position.getY() >=0) return true;
+      // X -> vertical movement
+      if (position.getX() < map.getNumR() - 1 && position.getX()>= 0) return true;
       return false;
    }
 
