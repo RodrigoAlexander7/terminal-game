@@ -12,7 +12,7 @@ import com.zaund.map.Position;
 public class MovementSystem {
    public static boolean movePlayer(Map map, Player player, ArrayList<Enemy> enemies, Command direction){
       Position current = player.getPosition();
-      Position newPosition = current;
+      Position newPosition = new Position(current);
       // create the new position
       switch (direction) {
          case MOVE_UP: newPosition.moveUp(); break;
@@ -24,7 +24,8 @@ public class MovementSystem {
       // if the new position is not transitable do nothing
       if(!map.getTile(newPosition).getTransitable()){
          System.out.println("Is not posible walk here");
-         newPosition = current;
+         // undo changes
+         newPosition = new Position(current);
       } // else move the player
       else{
          player.setPosition(newPosition);

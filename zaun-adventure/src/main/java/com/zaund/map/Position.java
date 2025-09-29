@@ -8,6 +8,11 @@ public class Position{
       this.x = x;
       this.y = y;
    }
+   // Constructor to create a copy of other position
+   public Position(Position other){
+      this.x = other.getX();
+      this.y = other.getY();
+   }
 
    public int getX(){ return x; }
    public int getY(){ return y; }
