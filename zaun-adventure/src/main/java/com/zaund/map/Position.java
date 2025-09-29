@@ -12,10 +12,10 @@ public class Position{
    public int getX(){ return x; }
    public int getY(){ return y; }
 
-   public void moveLeft(){ x -= 1; }
-   public void moveRight(){ x += 1; }
-   public void moveUp(){ y += 1; }
-   public void moveDown(){ y -= 1; }
+   public void moveLeft(){ y -= 1; }
+   public void moveRight(){ y += 1; }
+   public void moveUp(){ x -= 1; }
+   public void moveDown(){ x += 1; }
 
    public void customMove(int dx, int dy) {
       x += dx;
