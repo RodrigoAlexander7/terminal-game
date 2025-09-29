@@ -2,7 +2,8 @@ package com.zaund.map;
 
 public enum Tile{
    WALL('#', false),
-   WATHER('~', true);
+   WATHER('~', true),
+   FLOOR(' ', true);
 
    private final char symbol;
    private final boolean transitable;
