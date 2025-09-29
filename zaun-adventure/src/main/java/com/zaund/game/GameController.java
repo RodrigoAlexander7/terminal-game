@@ -21,6 +21,7 @@ public class GameController{
    protected InputHandler inputHandler;
 
    public GameController(){
+      mapGenerator = new MapGenerator();
       map = mapGenerator.basicMap();
       player = new Ekko(0,0);
       state = GameState.EXPLORING;
