@@ -7,9 +7,11 @@ public class Ekko extends Player{
    public static final int BASIC_ATACK_POWER = 500;
    public static final int MIDDLE_ATACK_POWER = 1000;
    public static final int MAX_ATACK_POWER = 2000;
+   public static final String RENDER_SYMBOL = "⋈";
 
    public Ekko(int x, int y){
       super(x, y);
+      renderSymbol = RENDER_SYMBOL;
    }
 
    public void basicAtack(Enemy enemy){

@@ -23,7 +23,7 @@ public class GameController{
    public GameController(){
       mapGenerator = new MapGenerator();
       map = mapGenerator.basicMap();
-      player = new Ekko(0,0);
+      player = new Ekko(1,1);
       state = GameState.EXPLORING;
       enemies = new ArrayList<>();
    }
