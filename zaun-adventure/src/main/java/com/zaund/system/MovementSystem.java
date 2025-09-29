@@ -2,7 +2,6 @@ package com.zaund.system;
 
 import java.util.ArrayList;
 
-import com.zaund.entity.Entity;
 import com.zaund.entity.character.Enemy;
 import com.zaund.entity.character.Player;
 import com.zaund.io.Command;

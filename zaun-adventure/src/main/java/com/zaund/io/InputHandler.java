@@ -1,22 +1,32 @@
 package com.zaund.io;
 
-import java.util.Scanner;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
 
-public class InputHandler{
-   private static final Scanner scanner = new Scanner(System.in);
+public class InputHandler {
+    private static Terminal terminal;
 
-   public static Command getInput(){
-      System.out.println("> ");
-      String input = scanner.nextLine().trim().toLowerCase();
+    static {
+        try {
+            terminal = TerminalBuilder.terminal();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-      switch (input) {
-         case "w": return Command.MOVE_UP;
-         case "s": return Command.MOVE_DOWN;
-         case "a": return Command.MOVE_LEFT;
-         case "d": return Command.MOVE_RIGHT;
-         case "start": return Command.START;
-         case "exit": return Command.EXIT;    
-         default: return Command.INVALID;
-      }
-   }
+    public static Command getExploringInput() {
+        try {
+            int ch = terminal.reader().read(); // read without enter
+            switch (ch) {
+                case 'w': return Command.MOVE_UP;
+                case 's': return Command.MOVE_DOWN;
+                case 'a': return Command.MOVE_LEFT;
+                case 'd': return Command.MOVE_RIGHT;
+                default:  return Command.INVALID;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Command.INVALID;
+        }
+    }
 }

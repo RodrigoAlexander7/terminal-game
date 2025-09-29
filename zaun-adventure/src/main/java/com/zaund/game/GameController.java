@@ -34,7 +34,7 @@ public class GameController{
       boolean running = true;
       while(running){
          ConsoleRenderer.render(map, player, enemies);
-         Command command = InputHandler.getInput();
+         Command command = InputHandler.getExploringInput();
          MovementSystem.movePlayer(map, player, enemies, command);
       }
    }
