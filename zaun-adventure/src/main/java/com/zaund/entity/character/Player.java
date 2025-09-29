@@ -9,6 +9,10 @@ public abstract class Player extends Entity{
    public boolean isProtected; // if is protected avoid enemy atacs
    public boolean isDodgeAtack; // if is dodge there are probabilities that not take damage
 
+   public Player(int x, int y){
+      super(x,y);
+   }
+
    public abstract void basicAtack(Enemy enemy);
    public abstract void middleAtack(Enemy enemy);
    public abstract void maxAtack(Enemy enemy);

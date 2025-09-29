@@ -20,7 +20,6 @@ public abstract class Enemy extends Entity{
          isLive = false;
          System.out.println("You finish the enemy!");
       }
-
    }
 
 }
