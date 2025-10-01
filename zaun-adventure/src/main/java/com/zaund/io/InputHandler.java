@@ -1,5 +1,7 @@
 package com.zaund.io;
 
+import java.util.Scanner;
+
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
@@ -16,6 +18,7 @@ public class InputHandler {
 
     public static Command getExploringInput() {
         try {
+            // the int is the code on ascii of the char
             int ch = terminal.reader().read(); // read without enter
             switch (ch) {
                 case 'w': return Command.MOVE_UP;
@@ -27,6 +30,17 @@ public class InputHandler {
         } catch (Exception e) {
             e.printStackTrace();
             return Command.INVALID;
+        }
+    }
+    public static Command getMenuInput(){
+        System.out.println(">");
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine().trim().toLowerCase();
+        
+        switch (input) {
+            case "exit": return Command.EXIT;                
+            case "start": return Command.START;                
+            default: return Command.INVALID;
         }
     }
 }

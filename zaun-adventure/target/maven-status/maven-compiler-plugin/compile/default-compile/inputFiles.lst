@@ -19,6 +19,7 @@ W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\game\GameSta
 W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\io\Command.java
 W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\io\ConsoleRenderer.java
 W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\io\InputHandler.java
+W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\io\Menu.java
 W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\io\SaveSystem.java
 W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\item\Arma.java
 W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\item\Armadura.java
@@ -30,6 +31,7 @@ W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\map\Map.java
 W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\map\MapGenerator.java
 W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\map\Position.java
 W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\map\Tile.java
+W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\system\MenuSystem.java
 W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\system\MovementSystem.java
 W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\util\Config.java
 W:\PROFESIONAL\terminal-game\zaun-adventure\src\main\java\com\zaund\util\RandomUtils.java

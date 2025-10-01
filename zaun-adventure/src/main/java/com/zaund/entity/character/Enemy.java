@@ -1,4 +1,4 @@
-// abstract class to shepe all the players (heros)
+// abstract class to shepe all the enemies
 package com.zaund.entity.character;
 
 import com.zaund.entity.Entity;

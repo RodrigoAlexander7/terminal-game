@@ -7,6 +7,7 @@ com\zaund\game\Game.class
 com\zaund\map\Map.class
 com\zaund\entity\character\Ekko.class
 com\zaund\io\InputHandler.class
+com\zaund\game\GameController$1.class
 com\zaund\game\GameState.class
 com\zaund\entity\character\Enemy.class
 com\zaund\io\Command.class
