@@ -10,6 +10,7 @@ import com.zaund.io.Command;
 import com.zaund.io.*;
 import com.zaund.map.Map;
 import com.zaund.map.MapGenerator;
+import com.zaund.system.MenuSystem;
 import com.zaund.system.MovementSystem;
 
 public class GameController{
@@ -36,7 +37,7 @@ public class GameController{
             case MENU: 
                Menu.printMenu();
                Command menuCommand = InputHandler.getMenuInput();
-               
+               state = MenuSystem.menuHandler(menuCommand);
                break;
             case EXPLORING: 
                ConsoleRenderer.render(map, player, enemies);
