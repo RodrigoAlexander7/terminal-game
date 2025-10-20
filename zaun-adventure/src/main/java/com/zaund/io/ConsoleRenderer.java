@@ -5,7 +5,7 @@ import com.zaund.map.*;
 import java.util.List;
 
 import com.zaund.entity.*;
-import com.zaund.entity.character.Enemy;
+import com.zaund.entity.character.enemies.Enemy;
 
 public class ConsoleRenderer{
    public static void render(Map map, Entity player, List<Enemy> enemies){

@@ -1,7 +1,8 @@
 // abstract class to shepe all the enemies
-package com.zaund.entity.character;
+package com.zaund.entity.character.enemies;
 
 import com.zaund.entity.Entity;
+import com.zaund.entity.character.Player;
 
 public abstract class Enemy extends Entity{
    protected int life;
