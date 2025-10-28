@@ -8,5 +8,8 @@ public abstract class HextechArm extends Arm {
 
    public HextechArm(String name, String description) {
       super(name, description);
+      this.armRange = 1;
+      this.armDamage = 100;
+      this.armAmmoCapacity = 0; 
    }
 }
