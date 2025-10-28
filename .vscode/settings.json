@@ -1,5 +1,6 @@
 {
    "java.project.sourcePaths": [
       "zaun-adventure/src/main/java"
-   ]
+   ],
+   "java.configuration.updateBuildConfiguration": "interactive"
 }
