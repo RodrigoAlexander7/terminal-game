@@ -32,20 +32,38 @@ public class GameController{
 
    public void startGame(){
       boolean running = true;
-      while(running){
-         switch (state) {
-            case MENU: 
-               Menu.printMenu();
-               Command menuCommand = InputHandler.getMenuInput();
-               state = MenuSystem.menuHandler(menuCommand);
-               break;
-            case EXPLORING: 
-               ConsoleRenderer.render(map, player, enemies);
-               Command command = InputHandler.getExploringInput();
-               MovementSystem.movePlayer(map, player, enemies, command);
-               break; 
-            default : break;           
+      try {
+         while(running){
+            switch (state) {
+               case MENU: 
+                  Menu.printMenu();
+                  Command menuCommand = InputHandler.getMenuInput();
+                  state = MenuSystem.menuHandler(menuCommand);
+                  if (state == GameState.EXIT) {
+                     running = false;
+                  }
+                  break;
+               case EXPLORING: 
+                  ConsoleRenderer.render(map, player, enemies);
+                  Command command = InputHandler.getExploringInput();
+                  
+                  if (command == Command.EXIT) {
+                     running = false;
+                     break;
+                  }
+                  
+                  MovementSystem.movePlayer(map, player, enemies, command);
+                  break; 
+               default : 
+                  running = false;
+                  break;           
+            }
          }
+      } finally {
+         // Clean up and close terminal
+         ConsoleRenderer.clearScreen();
+         ConsoleRenderer.close();
+         System.out.println("Game closed. Thanks for playing!");
       }
    }
 }
