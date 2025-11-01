@@ -3,7 +3,7 @@ package com.zaund.combat.arm.distance;
 import com.zaund.combat.attack.weapon.*;
 import com.zaund.entity.Entity;
 
-public class PowPow extends DistanceArm implements DistanceAtack {
+public class PowPow extends DistanceArm implements DistanceAttack {
    private int armDamage;
 
    public PowPow() {

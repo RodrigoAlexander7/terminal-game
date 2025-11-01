@@ -3,7 +3,7 @@ package com.zaund.combat.arm.hextech;
 import com.zaund.combat.attack.weapon.*;
 import com.zaund.entity.Entity;
 
-public class RifleHex extends HextechArm implements DistanceAtack {
+public class RifleHex extends HextechArm implements DistanceAttack {
    public RifleHex() {
       super("RifleHex", "A hextech rifle that shoots energy bullets.", 20);
       setRange(10);

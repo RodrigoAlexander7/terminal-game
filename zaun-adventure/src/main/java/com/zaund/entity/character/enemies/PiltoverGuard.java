@@ -1,6 +1,5 @@
 package com.zaund.entity.character.enemies;
-
-import com.zaund.entity.Entity;
+import com.zaund.entity.*;
 
 public class PiltoverGuard extends Enemy {
    public static final int LIFE_POINTS = 1000;
@@ -15,7 +14,7 @@ public class PiltoverGuard extends Enemy {
    }
 
    @Override
-   public void basicAttack(Entity target) {
+   public void executeAttack(Damageable target) {
       System.out.println("Piltover Guard attacks!");
       target.receiveAttack(BASIC_ATTACK_POWER);
    }

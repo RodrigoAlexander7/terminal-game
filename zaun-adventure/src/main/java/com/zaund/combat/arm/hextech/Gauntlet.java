@@ -3,7 +3,7 @@ package com.zaund.combat.arm.hextech;
 import com.zaund.combat.attack.weapon.*;
 import com.zaund.entity.Entity;
 
-public class Gauntlet extends HextechArm implements MeleeAtack {
+public class Gauntlet extends HextechArm implements MeleeAttack {
    public Gauntlet() {
       super("Gauntlet", "A hextech gauntlet that enhances melee attacks.", 10); // Uses hextech energy
       setDamage(300);

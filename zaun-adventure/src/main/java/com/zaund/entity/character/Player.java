@@ -9,8 +9,8 @@ public abstract class Player extends Entity implements Damageable, Attackable {
    public int powerStatus;  // The power level capacity status | based on every kind of player (e.g., Ekko)
    public int lifeStatus;   // The life capacity status
    public boolean isProtected; // If protected, avoid enemy attacks
-   public boolean isDodgeAtack; // if is dodge there are probabilities that not take damage
-   public double dodgeAtackProbability; // the probability to dodge an atack
+   public boolean isDodgeAttack; // if is dodge there are probabilities that not take damage
+   public double dodgeAttackProbability; // the probability to dodge an attack
 
    public Player(int x, int y){
       super(x,y);
@@ -20,9 +20,9 @@ public abstract class Player extends Entity implements Damageable, Attackable {
    public void receiveAttack(int attackStat){
       if(isProtected){
          System.out.println("Attack avoided, you are protected!");
-      } else if(isDodgeAtack){
+      } else if(isDodgeAttack){
          double prob = Math.random();
-         if(prob < dodgeAtackProbability){
+         if(prob < dodgeAttackProbability){
             System.out.println("Attack dodged!");
             return;
          } else {

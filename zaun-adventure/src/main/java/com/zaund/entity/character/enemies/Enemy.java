@@ -15,7 +15,7 @@ public abstract class Enemy extends Entity implements Damageable, Attackable {
       isLive = true;
    }
 
-   public abstract void basicAttack(Entity target);
+   public abstract void executeAttack(Damageable target);
 
    public String getType(){ 
       return this.type;
@@ -35,10 +35,13 @@ public abstract class Enemy extends Entity implements Damageable, Attackable {
       return isLive;
    }
 
+   // affects only Damageable types (can receive attacks)
    @Override
    public void attack(Damageable target) {
-      // Default implementation delegates to basicAttack
-      basicAttack((Entity) target);
+      int damage = getAttackPower();
+      target.receiveAttack(damage);
+      System.out.println(getClass().getSimpleName() + " attacks for " + damage + " damage!");
+
    }
 
    @Override
