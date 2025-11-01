@@ -1,12 +1,12 @@
-// the general abstract class for all (characters -> playable -  and enemys -> no playables)
+// The general abstract class for all entities (characters -> playable and enemies -> non-playable)
 package com.zaund.entity;
 
-import com.zaund.map.*;;
+import com.zaund.map.*;
 
 public abstract class Entity {
    protected Position position;
    protected String renderSymbol;
-   // atack and defence are just for enemys, the characters has especiall habiliities
+   // Attack and defence are just for enemies, characters have special abilities
 
    public Entity(){
       this.position = new Position(0, 0);
@@ -43,6 +43,11 @@ public abstract class Entity {
    public void moveDown(){ this.position.moveDown(); }
    public void moveRight(){ this.position.moveRight(); }
    public void moveLeft(){ this.position.moveLeft(); }
+
+   // type is the name of the class
+   public abstract String getType();
+   public abstract void receiveAttack(int damage);
+   
 
    //  the @Override inside every kind of character
    // public string toString(){

@@ -1,6 +1,6 @@
 package com.zaund.combat.arm.hextech;
-import com.zaund.combat.atack.*;
-import com.zaund.entity.character.enemies.*;
+import com.zaund.combat.attack.weapon.*;
+import com.zaund.entity.Entity;
 
 public class RifleHex extends HextechArm implements DistanceAtack {
    public RifleHex() {
@@ -11,7 +11,7 @@ public class RifleHex extends HextechArm implements DistanceAtack {
    }
 
    @Override
-   public void shot(Enemy enemy) {
+   public void shot(Entity entity) {
       // Implement the shot logic
    }
 

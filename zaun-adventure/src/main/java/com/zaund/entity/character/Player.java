@@ -1,13 +1,12 @@
-// abstract class to shepe all the players (heros)
+// Abstract class to shape all the players (heroes)
 package com.zaund.entity.character;
 
 import com.zaund.entity.Entity;
-import com.zaund.entity.character.enemies.Enemy;
 
 public abstract class Player extends Entity{
-   public int powerStatus;  // the power level capacity status | based on every kind of player (eg:ekko)
-   public int lifeStatus;   // the live capacity status
-   public boolean isProtected; // if is protected avoid enemy atacs
+   public int powerStatus;  // The power level capacity status | based on every kind of player (e.g., Ekko)
+   public int lifeStatus;   // The life capacity status
+   public boolean isProtected; // If protected, avoid enemy attacks
    public boolean isDodgeAtack; // if is dodge there are probabilities that not take damage
    public double dodgeAtackProbability; // the probability to dodge an atack
 
@@ -36,9 +35,9 @@ public abstract class Player extends Entity{
       }
    }
 
-   public abstract void basicAtack(Enemy enemy);
-   public abstract void middleAtack(Enemy enemy);
-   public abstract void maxAtack(Enemy enemy);
+   public abstract void basicAttack(Entity target);
+   public abstract void middleAttack(Entity target);
+   public abstract void maxAttack(Entity target);
    public abstract void protect();
-   public abstract void dodgeAtack();
+   public abstract void dodgeAttack();
 }

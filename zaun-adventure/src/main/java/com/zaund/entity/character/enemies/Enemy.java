@@ -1,8 +1,7 @@
-// abstract class to shepe all the enemies
+// Abstract class to shape all the enemies
 package com.zaund.entity.character.enemies;
 
 import com.zaund.entity.Entity;
-import com.zaund.entity.character.Player;
 
 public abstract class Enemy extends Entity{
    protected String type;
@@ -14,7 +13,7 @@ public abstract class Enemy extends Entity{
       isLive = true;
    }
 
-   public abstract void basicAtack(Player player);
+   public abstract void basicAttack(Entity target);
 
    public String getType(){ 
       return this.type;
