@@ -19,4 +19,9 @@ public class PiltoverGuard extends Enemy {
       System.out.println("Piltover Guard attacks!");
       target.receiveAttack(BASIC_ATTACK_POWER);
    }
+
+   @Override
+   public int getAttackPower() {
+      return BASIC_ATTACK_POWER;
+   }
 }

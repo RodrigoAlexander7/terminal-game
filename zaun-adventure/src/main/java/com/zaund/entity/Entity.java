@@ -1,9 +1,9 @@
-// The general abstract class for all entities (characters -> playable and enemies -> non-playable)
+// the general abstract class for all (characters -> playable -  and enemys -> no playables)
 package com.zaund.entity;
 
-import com.zaund.map.*;
+import com.zaund.map.*;;
 
-public abstract class Entity {
+public abstract class Entity implements Renderable, Movable {
    protected Position position;
    protected String renderSymbol;
    // Attack and defence are just for enemies, characters have special abilities

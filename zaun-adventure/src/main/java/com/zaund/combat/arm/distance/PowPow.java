@@ -1,23 +1,22 @@
 package com.zaund.combat.arm.distance;
+
 import com.zaund.combat.attack.weapon.*;
 import com.zaund.entity.Entity;
 
 public class PowPow extends DistanceArm implements DistanceAtack {
-   public int armRange;
-   public int armAmmo;
-   public int armDamage;
+   private int armDamage;
 
    public PowPow() {
-      super("Pow-Pow", "Jinx's signature weapon, a compact submachine gun that fires a rapid stream of bullets.");
-      this.armRange = 10;
-      this.armAmmo = 100;
+      super("Pow-Pow", "Jinx's signature weapon, a compact submachine gun that fires a rapid stream of bullets.", 100);
+      setRange(10);
       this.armDamage = 100;
    }
 
    @Override
    public void shot(Entity entity) {
-      if (armAmmo <= 0) {
-         System.out.println("Out of ammo!");
+      if (needsReload()) {
+         System.out.println("Out of ammo! Reloading...");
+         reload();
          return;
       }
       System.out.println("Firing Pow-Pow at " + entity.getType() + " for " + armDamage + " damage.");
@@ -33,9 +32,14 @@ public class PowPow extends DistanceArm implements DistanceAtack {
       System.out.println("Firing Rain Shot at " + entity.getType() + " for " + (armDamage * 5) + " damage.");
       entity.receiveAttack(armDamage * 5); // rain shot does 5x damage but use 25x ammo
       armAmmo -= 25;
-   }   
+   }
 
+   @Override
    public boolean isReloading() {
-      return false;
+      return needsReload();
+   }
+
+   public int getDamage() {
+      return armDamage;
    }
 }

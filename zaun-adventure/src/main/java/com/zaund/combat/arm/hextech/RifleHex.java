@@ -1,24 +1,30 @@
 package com.zaund.combat.arm.hextech;
+
 import com.zaund.combat.attack.weapon.*;
 import com.zaund.entity.Entity;
 
 public class RifleHex extends HextechArm implements DistanceAtack {
    public RifleHex() {
-      super("RifleHex", "A hextech rifle that shoots energy bullets.");
-      this.armRange = 10;
-      this.armDamage = 600;
-      this.armAmmoCapacity = 20;
+      super("RifleHex", "A hextech rifle that shoots energy bullets.", 20);
+      setRange(10);
+      setDamage(600);
    }
 
    @Override
    public void shot(Entity entity) {
-      // Implement the shot logic
+      if (needsReload()) {
+         System.out.println("RifleHex out of energy! Recharging...");
+         reload();
+         return;
+      }
+      System.out.println("Firing energy bullet at " + entity.getType() + " for " + getDamage() + " damage!");
+      entity.receiveAttack(getDamage());
+      currentAmmo--;
    }
 
    @Override
    public boolean isReloading() {
-      // Implement the reloading logic
-      return false;
+      return needsReload();
    }
    
 }

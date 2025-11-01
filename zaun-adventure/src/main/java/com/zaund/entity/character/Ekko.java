@@ -49,6 +49,13 @@ public class Ekko extends Player{
    public void dodgeAttack(){
 
    }
+
+   @Override
+   public int getAttackPower() {
+      return BASIC_ATTACK_POWER;
+   }
+
+   @Override
    public String getType(){
       return "Ekko";
    }

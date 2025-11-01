@@ -1,9 +1,11 @@
 // Abstract class to shape all the players (heroes)
 package com.zaund.entity.character;
 
+import com.zaund.combat.Attackable;
+import com.zaund.entity.Damageable;
 import com.zaund.entity.Entity;
 
-public abstract class Player extends Entity{
+public abstract class Player extends Entity implements Damageable, Attackable {
    public int powerStatus;  // The power level capacity status | based on every kind of player (e.g., Ekko)
    public int lifeStatus;   // The life capacity status
    public boolean isProtected; // If protected, avoid enemy attacks
@@ -14,6 +16,7 @@ public abstract class Player extends Entity{
       super(x,y);
    }
    
+   @Override
    public void receiveAttack(int attackStat){
       if(isProtected){
          System.out.println("Attack avoided, you are protected!");
@@ -34,6 +37,20 @@ public abstract class Player extends Entity{
          System.out.println("You have been defeated!");
       }
    }
+
+   @Override
+   public boolean isAlive() {
+      return lifeStatus > 0;
+   }
+
+   @Override
+   public void attack(Damageable target) {
+      // Default implementation delegates to basicAttack
+      basicAttack((Entity) target);
+   }
+
+   @Override
+   public abstract int getAttackPower();
 
    public abstract void basicAttack(Entity target);
    public abstract void middleAttack(Entity target);
