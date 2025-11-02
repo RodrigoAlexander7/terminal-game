@@ -3,17 +3,23 @@ package com.zaund.entity;
 
 import com.zaund.map.*;;
 
-public abstract class Entity {
+public abstract class Entity implements Renderable, Movable {
    protected Position position;
    protected String renderSymbol;
-   // atack and defence are just for enemys, the characters has especiall habiliities
+   protected final String type;
+   protected int life;
+   protected int maxLife;
+   protected boolean isAlive;
 
-   public Entity(){
-      this.position = new Position(0, 0);
-   }
-
-   public Entity(int x, int y){
+   public Entity(int x, int y, String type, int maxLife){
+      if (maxLife <= 0) {
+         throw new IllegalArgumentException("Max life must be positive");
+      }
       this.position = new Position(x, y);
+      this.type = type;
+      this.maxLife = maxLife;
+      this.life = maxLife;
+      this.isAlive = true;
    }
 
    public Position getPosition() {
@@ -43,6 +49,40 @@ public abstract class Entity {
    public void moveDown(){ this.position.moveDown(); }
    public void moveRight(){ this.position.moveRight(); }
    public void moveLeft(){ this.position.moveLeft(); }
+
+   // Getters for common attributes
+   public String getType() {
+      return this.type;
+   }
+
+   public int getLife() {
+      return this.life;
+   }
+
+   public int getMaxLife() {
+      return this.maxLife;
+   }
+
+   public boolean isAlive() {
+      return this.isAlive;
+   }
+
+   // Protected setter for life - only subclasses can modify
+   protected void setLife(int life) {
+      this.life = Math.max(0, life); // Ensure life never goes negative
+      if (this.life <= 0 && this.isAlive) {
+         this.isAlive = false;
+         onDeath();
+      }
+   }
+
+   // Hook method for death behavior - subclasses can override
+   protected void onDeath() {
+      System.out.println(getType() + " has been defeated!");
+   }
+
+   public abstract void receiveAttack(int damage);
+   
 
    //  the @Override inside every kind of character
    // public string toString(){

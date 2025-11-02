@@ -1,31 +1,41 @@
-// abstract class to shepe all the enemies
+// Abstract class to shape all the enemies
 package com.zaund.entity.character.enemies;
 
+import com.zaund.combat.Attackable;
+import com.zaund.entity.Damageable;
 import com.zaund.entity.Entity;
-import com.zaund.entity.character.Player;
 
-public abstract class Enemy extends Entity{
-   protected String type;
-   protected int life;
-   protected boolean isLive;
+public abstract class Enemy extends Entity implements Damageable, Attackable {
 
-   public Enemy(int life){
-      this.life = life; 
-      isLive = true;
+   public Enemy(int x, int y, String type, int maxLife){
+      super(x, y, type, maxLife);
    }
 
-   public abstract void basicAtack(Player player);
+   public abstract void executeAttack(Damageable target);
 
-   public String getType(){ 
-      return this.type;
-   }
-
+   @Override
    public void receiveAttack(int attackStat){
-      life = life - attackStat;
-      if(life <= 0){
-         isLive = false;
-         System.out.println("You finish the enemy!");
+      if (attackStat < 0) {
+         throw new IllegalArgumentException("Damage cannot be negative");
       }
+      setLife(getLife() - attackStat);
    }
+
+   @Override
+   protected void onDeath() {
+      System.out.println("You finished the " + getType() + "!");
+   }
+
+   // affects only Damageable types (can receive attacks)
+   @Override
+   public void attack(Damageable target) {
+      int damage = getAttackPower();
+      target.receiveAttack(damage);
+      System.out.println(getClass().getSimpleName() + " attacks for " + damage + " damage!");
+
+   }
+
+   @Override
+   public abstract int getAttackPower();
 
 }

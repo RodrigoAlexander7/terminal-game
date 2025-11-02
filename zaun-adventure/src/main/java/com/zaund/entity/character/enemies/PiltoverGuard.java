@@ -1,21 +1,26 @@
 package com.zaund.entity.character.enemies;
-
-import com.zaund.entity.character.Player;
+import com.zaund.entity.*;
 
 public class PiltoverGuard extends Enemy {
    public static final int LIFE_POINTS = 1000;
-   public static final int BASIC_ATACK_POWER = 300;
+   public static final int BASIC_ATTACK_POWER = 300;
    public static final String RENDER_SYMBOL = "🛡️";
+   public static final String TYPE = "Piltover Guard";
 
 
    public PiltoverGuard(int x, int y) {
-      super(LIFE_POINTS);
-      setPosition(x, y);
+      super(x, y, TYPE, LIFE_POINTS);
+      this.renderSymbol = RENDER_SYMBOL;
    }
 
    @Override
-   public void basicAtack(Player player) {
+   public void executeAttack(Damageable target) {
       System.out.println("Piltover Guard attacks!");
-      player.receiveAttack(BASIC_ATACK_POWER);
+      target.receiveAttack(BASIC_ATTACK_POWER);
+   }
+
+   @Override
+   public int getAttackPower() {
+      return BASIC_ATTACK_POWER;
    }
 }

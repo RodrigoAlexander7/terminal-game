@@ -1,5 +1,6 @@
 package com.zaund.game;
 
+import java.util.List;
 import java.util.ArrayList;
 
 import com.zaund.entity.Entity;
@@ -19,13 +20,13 @@ public class GameController{
    protected Player player;
    protected GameState state;
    protected ConsoleRenderer render;
-   protected ArrayList<Enemy> enemies;
+   protected List<Enemy> enemies;
    protected InputHandler inputHandler;
 
    public GameController(){
       mapGenerator = new MapGenerator();
-      map = mapGenerator.basicMap();
-      player = new Ekko(1,1);
+      map = mapGenerator.complexMap();
+      player = new Ekko(2,2);
       state = GameState.MENU;
       enemies = new ArrayList<Enemy>();
    }

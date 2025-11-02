@@ -104,21 +104,50 @@ During gameplay, you'll see:
 
 ## 🏗️ Architecture
 
-The project follows a clean, modular architecture:
+The project follows a clean, modular architecture with clear separation of concerns:
 
 ```
 zaun-adventure/
 ├── src/main/java/com/zaund/
 │   ├── combat/          # Combat system
-│   │   ├── arm/         # Weapon types
-│   │   │   ├── melee/
-│   │   │   ├── distance/
-│   │   │   └── hextech/
-│   │   └── atack/       # Attack implementations
+│   │   ├── arm/         # Weapon base classes
+│   │   │   ├── Arm.java              # Base weapon class
+│   │   │   ├── Reloadable.java       # Interface for ammo weapons
+│   │   │   ├── Rechargeable.java     # Interface for energy weapons
+│   │   │   ├── melee/                # Melee weapons
+│   │   │   │   ├── MeleeArm.java
+│   │   │   │   └── Sword.java
+│   │   │   ├── distance/             # Distance weapons
+│   │   │   │   ├── DistanceArm.java
+│   │   │   │   ├── Pistol.java
+│   │   │   │   └── PowPow.java
+│   │   │   └── hextech/              # Hextech weapons
+│   │   │       ├── HextechArm.java
+│   │   │       ├── HextechDistanceArm.java
+│   │   │       ├── Gauntlet.java
+│   │   │       ├── Fishbone.java
+│   │   │       └── RifleHex.java
+│   │   ├── attack/       # Attack implementations
+│   │   │   └── weapon/
+│   │   │       ├── DistanceAttack.java
+│   │   │       └── MeleeAttack.java
+│   │   └── Attackable.java  # Interface for attacking entities
 │   ├── entity/          # Game entities
+│   │   ├── Entity.java           # Base entity class
+│   │   ├── Damageable.java       # Interface for entities that take damage
+│   │   ├── Movable.java          # Interface for movement
+│   │   ├── Renderable.java       # Interface for rendering
 │   │   ├── character/   # Player characters
-│   │   │   └── enemies/ # Enemy types
+│   │   │   ├── Player.java
+│   │   │   ├── Ekko.java
+│   │   │   └── enemies/
+│   │   │       ├── Enemy.java
+│   │   │       └── PiltoverGuard.java
 │   │   └── ai/          # AI behaviors
+│   │       ├── AI.java
+│   │       ├── AIPassive.java
+│   │       ├── AIAggressive.java
+│   │       └── AIBossPhase.java
 │   ├── game/            # Game core
 │   │   ├── Game.java
 │   │   ├── GameController.java
@@ -128,6 +157,7 @@ zaun-adventure/
 │   │   ├── ConsoleRenderer.java
 │   │   ├── InputHandler.java
 │   │   ├── Menu.java
+│   │   ├── Command.java
 │   │   └── SaveSystem.java
 │   ├── map/             # Map generation
 │   │   ├── Map.java
@@ -137,13 +167,21 @@ zaun-adventure/
 │   ├── system/          # Game systems
 │   │   ├── MenuSystem.java
 │   │   └── MovementSystem.java
+│   ├── item/            # Items and equipment
+│   │   ├── Item.java
+│   │   ├── Usable.java
+│   │   ├── Equipable.java
+│   │   ├── Armadura.java
+│   │   └── PocionVida.java
 │   └── util/            # Utilities
 │       ├── Config.java
 │       └── RandomUtils.java
-└── src/main/resources/
-    ├── config.properties
-    ├── maps/
-    └── saves/
+├── src/main/resources/
+│   ├── config.properties
+│   ├── maps/
+│   └── saves/
+└── docs/
+    └── arms-class-diagram.puml   # UML diagram of weapon system
 ```
 
 ### Key Components
@@ -160,7 +198,7 @@ Handles all terminal rendering:
 - Single-frame rendering using JLine3
 - Screen clearing and cursor positioning
 - Map and entity visualization
-- Player stats display
+- Player stats display with health and power bars
 
 #### 🕹️ Input Handler (`InputHandler.java`)
 Manages player input:
@@ -169,19 +207,69 @@ Manages player input:
 - Command parsing and validation
 
 #### 🗺️ Map System
-- `Map.java`: Core map data structure
-- `MapGenerator.java`: Procedural map generation
-- `Tile.java`: Individual tile properties
+- `Map.java`: Core map data structure with tile grid
+- `MapGenerator.java`: Procedural map generation algorithms
+- `Tile.java`: Individual tile properties (traversable, type)
+- `Position.java`: 2D position with movement methods
 
 #### ⚔️ Combat System
-- Multiple weapon types with unique characteristics
-- Attack strategies (Melee, Distance, Hextech)
-- Damage calculation and status effects
+The combat system is built with a clean architecture following SOLID principles:
+
+**Weapon Hierarchy:**
+- `Arm`: Base abstract class with damage, range, name, and description
+- `DistanceArm`: Distance weapons using ammunition (implements Reloadable)
+- `MeleeArm`: Melee weapons with durability system
+- `HextechArm`: Hextech weapons using energy (implements Rechargeable)
+- `HextechDistanceArm`: Advanced hextech weapons using both energy and ammo
+
+**Weapon Types:**
+- Standard Distance: Pistol, PowPow (with Rain Shot ability)
+- Melee: Sword (durability-based)
+- Hextech Melee: Gauntlet (energy-powered punches)
+- Hextech Distance: Fishbone (rocket launcher), RifleHex (energy rifle)
+
+**Interfaces:**
+- `Attackable`: Entities that can attack
+- `Damageable`: Entities that can receive damage
+- `Reloadable`: Weapons with ammunition
+- `Rechargeable`: Weapons with energy system
+- `DistanceAttack`: Distance attack behavior
+- `MeleeAttack`: Melee attack behavior (light, middle, heavy)
+
+#### 👤 Entity System
+Entities follow a clean inheritance hierarchy:
+
+**Base Classes:**
+- `Entity`: Base class with position, type, life, and rendering
+  - Implements `Renderable` and `Movable` interfaces
+  - Centralized life management with validation
+  - Hook methods for death behavior
+
+**Player System:**
+- `Player`: Abstract player class with power management
+  - Implements `Damageable` and `Attackable`
+  - Protection and dodge mechanics
+  - Three attack levels: basic, middle, max
+- `Ekko`: Concrete player implementation (time manipulator)
+
+**Enemy System:**
+- `Enemy`: Abstract enemy class
+  - Implements `Damageable` and `Attackable`
+  - Centralized attack power management
+- `PiltoverGuard`: Standard enemy type
 
 #### 🤖 AI System
 - `AIPassive`: Doesn't attack unless provoked
 - `AIAggressive`: Actively seeks and attacks player
 - `AIBossPhase`: Complex multi-phase behavior
+
+### Design Patterns Applied
+
+- **Template Method**: Base classes define structure, subclasses implement specifics
+- **Strategy**: Different attack behaviors through interfaces
+- **Observer**: Event-based rendering and state management
+- **Factory**: Map generation using factory methods
+- **Singleton**: Game state and configuration management
 
 ## 🛠️ Development
 
@@ -229,16 +317,44 @@ Edit `src/main/resources/config.properties` to customize:
 ### Adding New Enemies
 
 1. Create a new class extending `Enemy` in `com.zaund.entity.character.enemies`
-2. Implement `basicAtack(Player player)` method
-3. Define stats (LIFE_POINTS, BASIC_ATACK_POWER, RENDER_SYMBOL)
-4. Add to map generation logic
+2. Call super constructor with position, type, and max life:
+   ```java
+   public NewEnemy(int x, int y) {
+       super(x, y, "Enemy Name", MAX_LIFE);
+       this.renderSymbol = RENDER_SYMBOL;
+   }
+   ```
+3. Implement `getAttackPower()` method
+4. Override `executeAttack(Damageable target)` if custom behavior needed
+5. Add to map generation logic
 
 ### Adding New Weapons
 
-1. Create weapon class in appropriate package (`melee`, `distance`, or `hextech`)
-2. Extend `Arm` abstract class
-3. Implement attack methods
-4. Define weapon stats and characteristics
+**For Standard Distance Weapons:**
+1. Extend `DistanceArm` in `com.zaund.combat.arm.distance`
+2. Call super with: name, description, damage, range, maxAmmo
+3. Implement `DistanceAttack` interface (shot method)
+
+**For Melee Weapons:**
+1. Extend `MeleeArm` in `com.zaund.combat.arm.melee`
+2. Call super with: name, description, damage, range, maxDurability
+3. Implement `MeleeAttack` interface (light, middle, heavy attacks)
+
+**For Hextech Weapons:**
+1. For melee: Extend `HextechArm`, pass maxEnergy
+2. For distance: Extend `HextechDistanceArm`, pass maxEnergy and maxAmmo
+3. Manage energy consumption with `consumeEnergy()` method
+4. Distance weapons also use `consumeAmmo()` for ammunition
+
+### Weapon System Architecture
+
+See `docs/arms-class-diagram.puml` for complete UML diagram.
+
+**Key differences:**
+- **DistanceArm**: Uses ammunition only (Reloadable)
+- **HextechArm**: Uses energy only (Rechargeable)
+- **HextechDistanceArm**: Uses both energy and ammunition
+- **MeleeArm**: Uses durability system (repairable)
 
 ## 🎨 Terminal Requirements
 
@@ -278,16 +394,33 @@ reset
 
 ## 🗺️ Roadmap
 
-- [ ] Implement full combat system with all attack types
+### Completed
+- [x] Core game loop with state management
+- [x] Terminal rendering with JLine3
+- [x] Movement system with WASD controls
+- [x] Entity system with interfaces (Renderable, Movable, Damageable, Attackable)
+- [x] Weapon system with multiple types (Distance, Melee, Hextech)
+- [x] Resource management (ammunition, energy, durability)
+- [x] Base combat system with attack interfaces
+- [x] AI system foundation
+- [x] Map generation and navigation
+
+### In Progress
+- [ ] Full combat implementation with all attack types
+- [ ] Enemy AI behaviors (passive, aggressive, boss phases)
+- [ ] Player abilities (protect, dodge, time manipulation)
+
+### Planned
 - [ ] Add more enemy types and bosses
 - [ ] Create multiple levels/zones
 - [ ] Implement inventory system
 - [ ] Add equipment and upgrades
-- [ ] Implement save/load functionality
-- [ ] Add sound effects (ASCII-based)
-- [ ] Multiplayer support
+- [ ] Complete save/load functionality
+- [ ] Item system (potions, armor)
 - [ ] Achievement system
-- [ ] Procedural dungeon generation
+- [ ] Advanced procedural generation
+- [ ] Boss battles with phase mechanics
+- [ ] Story mode and quests
 
 ## 🤝 Contributing
 

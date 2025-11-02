@@ -1,41 +1,42 @@
 package com.zaund.combat.arm.distance;
-import com.zaund.combat.atack.*;
-import com.zaund.entity.character.enemies.Enemy;
 
-public class PowPow extends DistanceArm implements DistanceAtack {
-   public int armRange;
-   public int armAmmo;
-   public int armDamage;
+import com.zaund.combat.attack.weapon.*;
+import com.zaund.entity.Entity;
+
+public class PowPow extends DistanceArm implements DistanceAttack {
 
    public PowPow() {
-      super("Pow-Pow", "Jinx's signature weapon, a compact submachine gun that fires a rapid stream of bullets.");
-      this.armRange = 10;
-      this.armAmmo = 100;
-      this.armDamage = 100;
+      super("Pow-Pow", "Jinx's signature weapon, a compact submachine gun that fires a rapid stream of bullets.", 100, 10, 100);
    }
 
    @Override
-   public void shot(Enemy enemy) {
-      if (armAmmo <= 0) {
-         System.out.println("Out of ammo!");
+   public void shot(Entity entity) {
+      if (needsReload()) {
+         System.out.println("Out of ammo! Reloading...");
+         reload();
          return;
       }
-      System.out.println("Firing Pow-Pow at " + enemy.getType() + " for " + armDamage + " damage.");
-      enemy.receiveAttack(armDamage);
-      armAmmo--;
+      System.out.println("Firing Pow-Pow at " + entity.getType() + " for " + getDamage() + " damage.");
+      entity.receiveAttack(getDamage());
+      consumeAmmo();
    }
 
-   public void rainShot(Enemy enemy) {
-      if (armAmmo < 25) {
+   /**
+    * Special ability: Rain Shot - consumes 25 ammo for 5x damage
+    */
+   public void rainShot(Entity entity) {
+      if (currentAmmo < 25) {
          System.out.println("Not enough ammo for Rain Shot!");
          return;
       }
-      System.out.println("Firing Rain Shot at " + enemy.getType() + " for " + (armDamage * 5) + " damage.");
-      enemy.receiveAttack(armDamage * 5); // rain shot does 5x damage but use 25x ammo
-      armAmmo -= 25;
-   }   
+      int damage = getDamage() * 5;
+      System.out.println("Firing Rain Shot at " + entity.getType() + " for " + damage + " damage.");
+      entity.receiveAttack(damage);
+      consumeAmmo(25);
+   }
 
+   @Override
    public boolean isReloading() {
-      return false;
+      return needsReload();
    }
 }

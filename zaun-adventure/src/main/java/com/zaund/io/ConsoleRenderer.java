@@ -107,8 +107,8 @@ public class ConsoleRenderer {
       // Show stats if player is a Player type
       if (player instanceof com.zaund.entity.character.Player) {
          com.zaund.entity.character.Player p = (com.zaund.entity.character.Player) player;
-         frame.append("Life: ").append(p.lifeStatus).append("\r\n");
-         frame.append("Power: ").append(p.powerStatus).append("\r\n");
+         frame.append("Life: ").append(p.getLife()).append("/").append(p.getMaxLife()).append("\r\n");
+         frame.append("Power: ").append(p.getPowerStatus()).append("/").append(p.getMaxPower()).append("\r\n");
       }
       
       frame.append("\r\n");
