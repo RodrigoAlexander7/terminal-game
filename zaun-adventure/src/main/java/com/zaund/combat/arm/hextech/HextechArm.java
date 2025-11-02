@@ -2,12 +2,14 @@ package com.zaund.combat.arm.hextech;
 
 import com.zaund.combat.arm.Arm;
 import com.zaund.combat.arm.Rechargeable;
-import com.zaund.combat.arm.Reloadable;
 
 /**
  * Base class for hextech weapons that use energy.
- * All hextech weapons implement Rechargeable for energy management.
- * Distance hextech weapons can also implement Reloadable for ammo.
+ * All hextech weapons consume energy when used and can be recharged.
+ * 
+ * Subclasses:
+ * - Pure hextech weapons (like Gauntlet): Only use energy
+ * - Hextech distance weapons: Should extend HextechDistanceArm for dual-resource management
  */
 public abstract class HextechArm extends Arm implements Rechargeable {
    protected int currentEnergy;
@@ -62,64 +64,5 @@ public abstract class HextechArm extends Arm implements Rechargeable {
     */
    protected boolean consumeEnergy() {
       return consumeEnergy(1);
-   }
-}
-
-/**
- * Extended hextech arm for distance weapons that use both energy and ammunition
- */
-abstract class HextechDistanceArm extends HextechArm implements Reloadable {
-   protected int currentAmmo;
-   protected final int maxAmmo;
-
-   public HextechDistanceArm(String name, String description, int damage, int range, int maxEnergy, int maxAmmo) {
-      super(name, description, damage, range, maxEnergy);
-      if (maxAmmo <= 0) {
-         throw new IllegalArgumentException("Max ammo must be positive");
-      }
-      this.maxAmmo = maxAmmo;
-      this.currentAmmo = maxAmmo;
-   }
-
-   @Override
-   public void reload() {
-      this.currentAmmo = maxAmmo;
-      System.out.println(getName() + " reloaded! Ammo: " + currentAmmo + "/" + maxAmmo);
-   }
-
-   @Override
-   public boolean needsReload() {
-      return currentAmmo <= 0;
-   }
-
-   @Override
-   public int getAmmoCount() {
-      return currentAmmo;
-   }
-
-   @Override
-   public int getMaxAmmo() {
-      return maxAmmo;
-   }
-
-   /**
-    * Consumes ammunition when firing
-    * @param amount Amount of ammo to consume
-    * @return true if ammo was consumed, false if insufficient ammo
-    */
-   protected boolean consumeAmmo(int amount) {
-      if (currentAmmo >= amount) {
-         currentAmmo -= amount;
-         return true;
-      }
-      return false;
-   }
-
-   /**
-    * Consumes one unit of ammunition
-    * @return true if ammo was consumed, false if out of ammo
-    */
-   protected boolean consumeAmmo() {
-      return consumeAmmo(1);
    }
 }

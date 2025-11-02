@@ -15,22 +15,25 @@ public class Fishbone extends HextechDistanceArm implements DistanceAttack {
 
    @Override
    public void shot(Entity entity) {
-      // Check both energy and ammo
-      if (needsRecharge()) {
-         System.out.println(getName() + " needs energy recharge!");
-         recharge();
-         return;
-      }
-      if (needsReload()) {
-         System.out.println(getName() + " out of rockets! Reloading...");
-         reload();
+      // Check if we can fire (need both energy and ammo)
+      if (!canFire(20, 1)) {
+         if (needsRecharge()) {
+            System.out.println(getName() + " needs energy recharge!");
+            recharge();
+         }
+         if (needsReload()) {
+            System.out.println(getName() + " out of rockets! Reloading...");
+            reload();
+         }
          return;
       }
       
+      // Fire the rocket
       System.out.println("🚀 Firing explosive rocket at " + entity.getType() + " for " + getDamage() + " damage!");
       entity.receiveAttack(getDamage());
       consumeAmmo();
-      consumeEnergy(20); // Each shot consumes energy too
+      consumeEnergy(20);
+      System.out.println("Energy: " + getEnergyCount() + "/" + getMaxEnergy() + " | Rockets: " + getAmmoCount() + "/" + getMaxAmmo());
    }
 
    @Override

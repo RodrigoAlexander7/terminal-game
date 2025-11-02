@@ -15,22 +15,25 @@ public class RifleHex extends HextechDistanceArm implements DistanceAttack {
 
    @Override
    public void shot(Entity entity) {
-      // Check both energy and ammo
-      if (needsRecharge()) {
-         System.out.println(getName() + " needs energy recharge!");
-         recharge();
-         return;
-      }
-      if (needsReload()) {
-         System.out.println(getName() + " out of energy cells! Reloading...");
-         reload();
+      // Check if we can fire (need both energy and ammo)
+      if (!canFire(5, 1)) {
+         if (needsRecharge()) {
+            System.out.println(getName() + " needs energy recharge!");
+            recharge();
+         }
+         if (needsReload()) {
+            System.out.println(getName() + " out of energy cells! Reloading...");
+            reload();
+         }
          return;
       }
       
+      // Fire the energy bullet
       System.out.println("⚡ Firing energy bullet at " + entity.getType() + " for " + getDamage() + " damage!");
       entity.receiveAttack(getDamage());
       consumeAmmo();
-      consumeEnergy(5); // Each shot consumes energy
+      consumeEnergy(5);
+      System.out.println("Energy: " + getEnergyCount() + "/" + getMaxEnergy() + " | Cells: " + getAmmoCount() + "/" + getMaxAmmo());
    }
 
    @Override
