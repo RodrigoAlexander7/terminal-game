@@ -1,6 +1,6 @@
 package com.zaund.system;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.zaund.entity.character.Player;
 import com.zaund.entity.character.enemies.Enemy;
@@ -9,7 +9,7 @@ import com.zaund.map.Map;
 import com.zaund.map.Position;
 
 public class MovementSystem {
-   public static boolean movePlayer(Map map, Player player, ArrayList<Enemy> enemies, Command direction){
+   public static boolean movePlayer(Map map, Player player, List<Enemy> enemies, Command direction){
       Position current = player.getPosition();
       Position newPosition = new Position(current);
       
@@ -19,9 +19,7 @@ public class MovementSystem {
          case MOVE_DOWN: newPosition.moveDown(); break;
          case MOVE_RIGHT: newPosition.moveRight(); break;
          case MOVE_LEFT: newPosition.moveLeft(); break;
-         default: 
-            System.out.println("Invalid move");
-            return false;
+         default: return false; // invalid movement
       }
       
       // Validate map boundaries

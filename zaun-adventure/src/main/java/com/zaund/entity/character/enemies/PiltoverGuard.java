@@ -5,11 +5,11 @@ public class PiltoverGuard extends Enemy {
    public static final int LIFE_POINTS = 1000;
    public static final int BASIC_ATTACK_POWER = 300;
    public static final String RENDER_SYMBOL = "🛡️";
+   public static final String TYPE = "Piltover Guard";
 
 
    public PiltoverGuard(int x, int y) {
-      super(LIFE_POINTS);
-      setPosition(x, y);
+      super(x, y, TYPE, LIFE_POINTS);
       this.renderSymbol = RENDER_SYMBOL;
    }
 

@@ -6,18 +6,24 @@ import com.zaund.entity.Damageable;
 import com.zaund.entity.Entity;
 
 public abstract class Player extends Entity implements Damageable, Attackable {
-   public int powerStatus;  // The power level capacity status | based on every kind of player (e.g., Ekko)
-   public int lifeStatus;   // The life capacity status
-   public boolean isProtected; // If protected, avoid enemy attacks
-   public boolean isDodgeAttack; // if is dodge there are probabilities that not take damage
-   public double dodgeAttackProbability; // the probability to dodge an attack
+   protected int powerStatus;  // The power level capacity status | based on every kind of player (e.g., Ekko)
+   protected int maxPower;     // Maximum power capacity
+   protected boolean isProtected; // If protected, avoid enemy attacks
+   protected boolean isDodgeAttack; // if is dodge there are probabilities that not take damage
+   protected double dodgeAttackProbability; // the probability to dodge an attack
 
-   public Player(int x, int y){
-      super(x,y);
+   public Player(int x, int y, String type, int maxLife, int maxPower){
+      super(x, y, type, maxLife);
+      this.maxPower = maxPower;
+      this.powerStatus = maxPower;
    }
    
    @Override
    public void receiveAttack(int attackStat){
+      if (attackStat < 0) {
+         throw new IllegalArgumentException("Damage cannot be negative");
+      }
+      
       if(isProtected){
          System.out.println("Attack avoided, you are protected!");
       } else if(isDodgeAttack){
@@ -26,21 +32,30 @@ public abstract class Player extends Entity implements Damageable, Attackable {
             System.out.println("Attack dodged!");
             return;
          } else {
-            lifeStatus = lifeStatus - attackStat;
+            setLife(getLife() - attackStat);
             System.out.println("Attack hit you despite dodging!");
          }
       } else {
-         lifeStatus = lifeStatus - attackStat;
+         setLife(getLife() - attackStat);
          System.out.println("You received an attack!");
-      }
-      if(lifeStatus <= 0){
-         System.out.println("You have been defeated!");
       }
    }
 
    @Override
-   public boolean isAlive() {
-      return lifeStatus > 0;
+   protected void onDeath() {
+      System.out.println("You have been defeated!");
+   }
+
+   public int getPowerStatus() {
+      return powerStatus;
+   }
+
+   public int getMaxPower() {
+      return maxPower;
+   }
+
+   protected void setPowerStatus(int power) {
+      this.powerStatus = Math.max(0, Math.min(power, maxPower));
    }
 
    @Override

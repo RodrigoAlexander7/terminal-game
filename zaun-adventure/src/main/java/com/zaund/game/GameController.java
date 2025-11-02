@@ -1,5 +1,6 @@
 package com.zaund.game;
 
+import java.util.List;
 import java.util.ArrayList;
 
 import com.zaund.entity.Entity;
@@ -19,7 +20,7 @@ public class GameController{
    protected Player player;
    protected GameState state;
    protected ConsoleRenderer render;
-   protected ArrayList<Enemy> enemies;
+   protected List<Enemy> enemies;
    protected InputHandler inputHandler;
 
    public GameController(){

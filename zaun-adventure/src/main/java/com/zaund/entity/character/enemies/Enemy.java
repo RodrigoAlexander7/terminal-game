@@ -6,33 +6,24 @@ import com.zaund.entity.Damageable;
 import com.zaund.entity.Entity;
 
 public abstract class Enemy extends Entity implements Damageable, Attackable {
-   protected String type;
-   protected int life;
-   protected boolean isLive;
 
-   public Enemy(int life){
-      this.life = life; 
-      isLive = true;
+   public Enemy(int x, int y, String type, int maxLife){
+      super(x, y, type, maxLife);
    }
 
    public abstract void executeAttack(Damageable target);
 
-   public String getType(){ 
-      return this.type;
-   }
-
    @Override
    public void receiveAttack(int attackStat){
-      life = life - attackStat;
-      if(life <= 0){
-         isLive = false;
-         System.out.println("You finish the enemy!");
+      if (attackStat < 0) {
+         throw new IllegalArgumentException("Damage cannot be negative");
       }
+      setLife(getLife() - attackStat);
    }
 
    @Override
-   public boolean isAlive() {
-      return isLive;
+   protected void onDeath() {
+      System.out.println("You finished the " + getType() + "!");
    }
 
    // affects only Damageable types (can receive attacks)
