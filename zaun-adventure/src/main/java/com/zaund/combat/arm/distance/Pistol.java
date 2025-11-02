@@ -4,12 +4,9 @@ import com.zaund.combat.attack.weapon.*;
 import com.zaund.entity.Entity;
 
 public class Pistol extends DistanceArm implements DistanceAttack {
-   private int armDamage;
 
    public Pistol() {
-      super("Pistol", "A basic pistol with moderate damage and accuracy.", 12);
-      setRange(8);
-      this.armDamage = 50;
+      super("Pistol", "A basic pistol with moderate damage and accuracy.", 50, 8, 12);
    }
 
    @Override
@@ -19,17 +16,13 @@ public class Pistol extends DistanceArm implements DistanceAttack {
          reload();
          return;
       }
-      System.out.println("Firing Pistol at " + entity.getType() + " for " + armDamage + " damage.");
-      entity.receiveAttack(armDamage);
-      armAmmo--;
+      System.out.println("Firing Pistol at " + entity.getType() + " for " + getDamage() + " damage.");
+      entity.receiveAttack(getDamage());
+      consumeAmmo();
    }
 
    @Override
    public boolean isReloading() {
       return needsReload();
-   }
-
-   public int getDamage() {
-      return armDamage;
    }
 }

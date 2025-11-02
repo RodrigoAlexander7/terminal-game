@@ -3,31 +3,37 @@ package com.zaund.combat.arm.distance;
 import com.zaund.combat.arm.Arm;
 import com.zaund.combat.arm.Reloadable;
 
+/**
+ * Base class for distance weapons that use ammunition.
+ * Implements Reloadable interface for ammo management.
+ */
 public abstract class DistanceArm extends Arm implements Reloadable {
-   protected int armRange;
-   protected int armAmmo;
-   protected int maxAmmo;
+   protected int currentAmmo;
+   protected final int maxAmmo;
 
-   public DistanceArm(String name, String description, int maxAmmo) {
-      super(name, description);
+   public DistanceArm(String name, String description, int damage, int range, int maxAmmo) {
+      super(name, description, damage, range);
+      if (maxAmmo <= 0) {
+         throw new IllegalArgumentException("Max ammo must be positive");
+      }
       this.maxAmmo = maxAmmo;
-      this.armAmmo = maxAmmo;
+      this.currentAmmo = maxAmmo;
    }
 
    @Override
    public void reload() {
-      this.armAmmo = maxAmmo;
-      System.out.println(name + " reloaded! Ammo: " + armAmmo + "/" + maxAmmo);
+      this.currentAmmo = maxAmmo;
+      System.out.println(getName() + " reloaded! Ammo: " + currentAmmo + "/" + maxAmmo);
    }
 
    @Override
    public boolean needsReload() {
-      return armAmmo <= 0;
+      return currentAmmo <= 0;
    }
 
    @Override
    public int getAmmoCount() {
-      return armAmmo;
+      return currentAmmo;
    }
 
    @Override
@@ -35,12 +41,24 @@ public abstract class DistanceArm extends Arm implements Reloadable {
       return maxAmmo;
    }
 
-   public int getRange() {
-      return armRange;
+   /**
+    * Consumes ammunition when firing
+    * @param amount Amount of ammo to consume
+    * @return true if ammo was consumed, false if insufficient ammo
+    */
+   protected boolean consumeAmmo(int amount) {
+      if (currentAmmo >= amount) {
+         currentAmmo -= amount;
+         return true;
+      }
+      return false;
    }
 
-   public void setRange(int range) {
-      this.armRange = range;
+   /**
+    * Consumes one unit of ammunition
+    * @return true if ammo was consumed, false if out of ammo
+    */
+   protected boolean consumeAmmo() {
+      return consumeAmmo(1);
    }
-   
 }

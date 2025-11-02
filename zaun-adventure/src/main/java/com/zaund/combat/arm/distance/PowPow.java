@@ -4,12 +4,9 @@ import com.zaund.combat.attack.weapon.*;
 import com.zaund.entity.Entity;
 
 public class PowPow extends DistanceArm implements DistanceAttack {
-   private int armDamage;
 
    public PowPow() {
-      super("Pow-Pow", "Jinx's signature weapon, a compact submachine gun that fires a rapid stream of bullets.", 100);
-      setRange(10);
-      this.armDamage = 100;
+      super("Pow-Pow", "Jinx's signature weapon, a compact submachine gun that fires a rapid stream of bullets.", 100, 10, 100);
    }
 
    @Override
@@ -19,27 +16,27 @@ public class PowPow extends DistanceArm implements DistanceAttack {
          reload();
          return;
       }
-      System.out.println("Firing Pow-Pow at " + entity.getType() + " for " + armDamage + " damage.");
-      entity.receiveAttack(armDamage);
-      armAmmo--;
+      System.out.println("Firing Pow-Pow at " + entity.getType() + " for " + getDamage() + " damage.");
+      entity.receiveAttack(getDamage());
+      consumeAmmo();
    }
 
+   /**
+    * Special ability: Rain Shot - consumes 25 ammo for 5x damage
+    */
    public void rainShot(Entity entity) {
-      if (armAmmo < 25) {
+      if (currentAmmo < 25) {
          System.out.println("Not enough ammo for Rain Shot!");
          return;
       }
-      System.out.println("Firing Rain Shot at " + entity.getType() + " for " + (armDamage * 5) + " damage.");
-      entity.receiveAttack(armDamage * 5); // rain shot does 5x damage but use 25x ammo
-      armAmmo -= 25;
+      int damage = getDamage() * 5;
+      System.out.println("Firing Rain Shot at " + entity.getType() + " for " + damage + " damage.");
+      entity.receiveAttack(damage);
+      consumeAmmo(25);
    }
 
    @Override
    public boolean isReloading() {
       return needsReload();
-   }
-
-   public int getDamage() {
-      return armDamage;
    }
 }
