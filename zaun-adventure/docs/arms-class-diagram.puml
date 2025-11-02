@@ -1,0 +1,267 @@
+@startuml Arms Class Diagram
+
+' Styling
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor<<abstract>> LightYellow
+    BackgroundColor<<interface>> LightBlue
+    BorderColor Black
+    ArrowColor Black
+}
+
+' ==================== INTERFACES ====================
+
+interface Reloadable <<interface>> {
+    +reload(): void
+    +needsReload(): boolean
+    +getAmmoCount(): int
+    +getMaxAmmo(): int
+}
+
+interface Rechargeable <<interface>> {
+    +recharge(): void
+    +needsRecharge(): boolean
+    +getEnergyCount(): int
+    +getMaxEnergy(): int
+}
+
+interface DistanceAttack <<interface>> {
+    +shot(entity: Entity): void
+    +isReloading(): boolean
+}
+
+interface MeleeAttack <<interface>> {
+    +heavyAttack(entity: Entity): void
+    +middleAttack(entity: Entity): void
+    +lightAttack(entity: Entity): void
+}
+
+' ==================== BASE CLASS ====================
+
+abstract class Arm <<abstract>> {
+    # name: String {final}
+    # description: String {final}
+    # damage: int
+    # range: int
+    
+    + Arm(name: String, description: String, damage: int, range: int)
+    + getName(): String
+    + getDescription(): String
+    + getDamage(): int
+    + getRange(): int
+    # setDamage(damage: int): void
+    # setRange(range: int): void
+    + toString(): String
+}
+
+' ==================== DISTANCE ARMS ====================
+
+abstract class DistanceArm <<abstract>> {
+    # currentAmmo: int
+    # maxAmmo: int {final}
+    
+    + DistanceArm(name: String, description: String, damage: int, range: int, maxAmmo: int)
+    + reload(): void
+    + needsReload(): boolean
+    + getAmmoCount(): int
+    + getMaxAmmo(): int
+    # consumeAmmo(amount: int): boolean
+    # consumeAmmo(): boolean
+}
+
+class Pistol {
+    + Pistol()
+    + shot(entity: Entity): void
+    + isReloading(): boolean
+}
+
+class PowPow {
+    + PowPow()
+    + shot(entity: Entity): void
+    + rainShot(entity: Entity): void
+    + isReloading(): boolean
+}
+
+' ==================== HEXTECH ARMS ====================
+
+abstract class HextechArm <<abstract>> {
+    # currentEnergy: int
+    # maxEnergy: int {final}
+    
+    + HextechArm(name: String, description: String, damage: int, range: int, maxEnergy: int)
+    + recharge(): void
+    + needsRecharge(): boolean
+    + getEnergyCount(): int
+    + getMaxEnergy(): int
+    # consumeEnergy(amount: int): boolean
+    # consumeEnergy(): boolean
+}
+
+abstract class HextechDistanceArm <<abstract>> {
+    # currentAmmo: int
+    # maxAmmo: int {final}
+    
+    + HextechDistanceArm(name: String, description: String, damage: int, range: int, maxEnergy: int, maxAmmo: int)
+    + reload(): void
+    + needsReload(): boolean
+    + getAmmoCount(): int
+    + getMaxAmmo(): int
+    # consumeAmmo(amount: int): boolean
+    # consumeAmmo(): boolean
+}
+
+class Fishbone {
+    + Fishbone()
+    + shot(entity: Entity): void
+    + isReloading(): boolean
+}
+
+class RifleHex {
+    + RifleHex()
+    + shot(entity: Entity): void
+    + isReloading(): boolean
+}
+
+class Gauntlet {
+    + Gauntlet()
+    + heavyAttack(entity: Entity): void
+    + middleAttack(entity: Entity): void
+    + lightAttack(entity: Entity): void
+}
+
+' ==================== MELEE ARMS ====================
+
+abstract class MeleeArm <<abstract>> {
+    # durability: int
+    # maxDurability: int {final}
+    
+    + MeleeArm(name: String, description: String, damage: int, range: int, maxDurability: int)
+    + getDurability(): int
+    + getMaxDurability(): int
+    + isBroken(): boolean
+    # consumeDurability(amount: int): boolean
+    # consumeDurability(): boolean
+    + repair(): void
+}
+
+class Sword {
+    + Sword(name: String, description: String, damage: int, range: int, durability: int)
+    + heavyAttack(entity: Entity): void
+    + middleAttack(entity: Entity): void
+    + lightAttack(entity: Entity): void
+}
+
+' ==================== RELATIONSHIPS ====================
+
+' Base inheritance
+Arm <|-- DistanceArm
+Arm <|-- HextechArm
+Arm <|-- MeleeArm
+
+' Hextech hierarchy
+HextechArm <|-- HextechDistanceArm
+HextechArm <|-- Gauntlet
+
+' Distance arms
+DistanceArm <|-- Pistol
+DistanceArm <|-- PowPow
+
+' Hextech distance arms
+HextechDistanceArm <|-- Fishbone
+HextechDistanceArm <|-- RifleHex
+
+' Melee arms
+MeleeArm <|-- Sword
+
+' Interface implementations
+DistanceArm ..|> Reloadable
+HextechArm ..|> Rechargeable
+HextechDistanceArm ..|> Reloadable
+
+Pistol ..|> DistanceAttack
+PowPow ..|> DistanceAttack
+Fishbone ..|> DistanceAttack
+RifleHex ..|> DistanceAttack
+
+Gauntlet ..|> MeleeAttack
+Sword ..|> MeleeAttack
+
+' ==================== NOTES ====================
+
+note right of Arm
+  **Base class for all weapons**
+  - Contains common attributes
+  - Validates input in constructor
+  - Immutable name and description
+end note
+
+note right of DistanceArm
+  **Standard distance weapons**
+  - Uses ammunition (bullets)
+  - Implements Reloadable
+  - Helper methods for ammo consumption
+end note
+
+note right of HextechArm
+  **Hextech-powered weapons**
+  - Uses energy (hextech power)
+  - Implements Rechargeable
+  - All hextech weapons consume energy
+end note
+
+note bottom of HextechDistanceArm
+  **Dual-resource hextech weapons**
+  - Uses BOTH energy AND ammunition
+  - Implements Rechargeable + Reloadable
+  - Must check both resources before firing
+end note
+
+note right of MeleeArm
+  **Melee weapons with durability**
+  - Degrades with use
+  - Can be repaired
+  - Breaks at 0 durability
+end note
+
+note bottom of PowPow
+  **Special Ability:**
+  rainShot() - Consumes 25 ammo
+  for 5x damage
+end note
+
+note bottom of Fishbone
+  **Dual System:**
+  - Consumes 1 rocket (ammo)
+  - Consumes 20 energy per shot
+end note
+
+note bottom of RifleHex
+  **Dual System:**
+  - Consumes 1 energy cell (ammo)
+  - Consumes 5 energy per shot
+end note
+
+note bottom of Gauntlet
+  **Energy Only:**
+  - Light: 10 energy
+  - Middle: 20 energy
+  - Heavy: 30 energy
+end note
+
+' ==================== LEGEND ====================
+
+legend right
+  |= Symbol |= Meaning |
+  | <<abstract>> | Abstract class |
+  | <<interface>> | Interface |
+  | ──▷ | Inheritance |
+  | ··▷ | Interface implementation |
+  
+  **Key Differences:**
+  • **DistanceArm**: Ammo only (reload)
+  • **HextechArm**: Energy only (recharge)
+  • **HextechDistanceArm**: Energy + Ammo (both)
+  • **MeleeArm**: Durability (repair)
+end legend
+
+@enduml
